@@ -1,0 +1,28 @@
+title: Multiple Failed Login Attempts Indicating Brute Force
+id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+status: experimental
+description: >
+  Detects multiple consecutive failed Windows login attempts which
+  may indicate a brute force or password spraying attack.
+  Windows generates Event ID 4625 for every failed login.
+  A single failure is normal. Many failures in quick succession
+  from the same source is not.
+references:
+  - https://attack.mitre.org/techniques/T1110/001/
+author: Olusegun Fajobi
+date: 2024/01/15
+tags:
+  - attack.credential_access
+  - attack.t1110.001
+logsource:
+  product: windows
+  service: security
+detection:
+  selection:
+    EventID: 4625
+    LogonType: 3
+  condition: selection
+falsepositives:
+  - Users who genuinely forget their password
+  - Misconfigured services using wrong credentials
+level: medium
